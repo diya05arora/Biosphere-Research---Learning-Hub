@@ -1,460 +1,405 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>BioSphere</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
 
-    <!-- Favicons -->
-    <link href="assets/img/logo.png" rel="icon" />
-    <link href="assets/img/logo.png" rel="apple-touch-icon" />
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>BioSphere</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Favicons -->
+  <link href="assets/img/logo.png" rel="icon" />
+  <link href="assets/img/logo.png" rel="apple-touch-icon" />
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
 
-    <!-- Vendor CSS Files -->
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/glightbox/css/glightbox.min.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <!-- Main CSS File -->
-    <link href="assets/css/about.css" rel="stylesheet" />
-  </head>
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
-  <body class="index-page">
-    <header id="header" class="header d-flex align-items-center fixed-top">
-      <div
-        class="container-fluid position-relative d-flex align-items-center justify-content-between"
-      >
-        <a
-          href="index.html"
-          class="logo d-flex align-items-center me-auto me-xl-0"
-        >
-          <!-- Uncomment the line below if you also wish to use an image logo -->
-          <img src="assets/img/logo.png" alt="">
-          <!-- <h1 class="sitename">BioSphere</h1> -->
-        </a>
+  <!-- Main CSS File -->
+  <link href="assets/css/about.css" rel="stylesheet" />
+</head>
 
-        <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html" class="active">About Us</a></li>
-            <li><a href="domains.html" >Core Domains</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
+<body class="index-page">
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo.png" alt="">
+        <!-- <h1 class="sitename">BioSphere</h1> -->
+      </a>
 
-        <div class="header-social-links">
-          <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        </div>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#about" class="active">About Us</a></li>
+          <li><a href="domains.html">Core Domains</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <div class="header-social-links">
+        <a href="https://www.linkedin.com/company/biosphereresearchandlearninghub/" class="linkedin"><i class="bi bi-linkedin"></i></a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    
-      <section id="about" class="about section">
-        <div class="container">
-          <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="col-lg-5">
-              <img src="assets/img/about.jpg" class="img-fluid" alt="" />
-            </div>
-            <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
-              <div class="content">
-                <h3>About BioSphere</h3>
-                <p>
-                  BioSphere is a pioneering research and education hub dedicated to transforming healthcare through cutting-edge research, advanced technology, and innovative learning.
-                </p>
-                <ul>
-                  <li>
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>
-                      <b>Mission: </b>Our mission is to bridge the gap between biotechnology and digital innovation, driving scientific discoveries that shape the future of medicine.
-                    </span>
-                  </li>
-                  <li>
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>
-                      <b>Vision: </b>To establish BioSphere as a leading research hub driving breakthrough innovations in cancer diagnostics, biotechnology, and healthcare solutions.
-                    </span>
-                  </li>
-                  <li>
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>
-                      <b>Innovative Solutions: </b>From AI-driven diagnostics to precision medicine, we develop transformative solutions that push the boundaries of biotechnology. By fostering collaboration and knowledge-sharing, we empower the next generation of scientists to drive impactful change in global healthcare.
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+
+  <section id="about" class="about section">
+    <div class="container">
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-lg-5">
+          <img src="assets/img/about.jpg" class="img-fluid" alt="" />
         </div>
-      </section>
-
-
-        <!-- Team Section -->
-       <section id="team" class="team section">
-        <!-- <img src="assets/img/team-bg.jpg" alt="" data-aos="fade-in" /> -->
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <h2>Meet the Team</h2>
-          <p>
-           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit nemo modi quaerat facilis autem, nesciunt ipsum quisquam consequatur.
-          </p>
-        </div>
-        <!-- End Section Title -->
-
-        
-        <div class="container">
-          <div class="row gy-4">
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-              <div class="card-item">
-                <div class="row">
-                  <div class="col-xl-5">
-                    <div class="card-bg">
-                      <img src="assets/img/team/team-1.jpg" alt="" />
-                    </div>
-                  </div>
-                  <div class="col-xl-7 d-flex align-items-center">
-                    <div class="card-body">
-                      <h4 class="card-title">Dr ABC</h4>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum dicta dolores necessitatibus optio accusamus? Nulla architecto aspernatur expedita placeat rem quaerat nisi ut itaque perferendis quis!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Card Item -->
-
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-              <div class="card-item">
-                <div class="row">
-                  <div class="col-xl-5">
-                    <div class="card-bg">
-                      <img src="assets/img/team/team-2.jpg" alt="" />
-                    </div>
-                  </div>
-                  <div class="col-xl-7 d-flex align-items-center">
-                    <div class="card-body">
-                      <h4 class="card-title">
-                        Ms XYZ
-                      </h4>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque earum, neque quis natus voluptates dolor veritatis. Iusto, ullam facere? Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Card Item -->
-
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-              <div class="card-item">
-                <div class="row">
-                  <div class="col-xl-5">
-                    <div class="card-bg">
-                      <img src="assets/img/team/team-3.jpg" alt="" />
-                    </div>
-                  </div>
-                  <div class="col-xl-7 d-flex align-items-center">
-                    <div class="card-body">
-                      <h4 class="card-title">
-                        Dr ABC
-                      </h4>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque earum, neque quis natus voluptates dolor veritatis. Iusto, ullam facere? Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Card Item -->
-
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-              <div class="card-item">
-                <div class="row">
-                  <div class="col-xl-5">
-                    <div class="card-bg">
-                      <img src="assets/img/team/team-4.jpg" alt="" />
-                    </div>
-                  </div>
-                  <div class="col-xl-7 d-flex align-items-center">
-                    <div class="card-body">
-                      <h4 class="card-title">
-                        Mr XYZ
-                      </h4>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque earum, neque quis natus voluptates dolor veritatis. Iusto, ullam facere? Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Card Item -->
-          </div>
-        </div>
-      </section>
-      <!-- /Team Section -->
-
-
-      <!-- ChatBot Section -->
-      <section class="chatbot">
-        <button id="chatbot-toggle-btn" class="chatbot-toggle-btn">Chat</button>
-
-        <!-- Chatbot Container -->
-
-        <div id="chatbot-container" class="chatbot-container hidden">
-          <!-- Header Section  -->
-          <div class="chatbot-header">
-            <h2 class="chatbot-name">Ask your Query</h2>
-          </div>
-          <div class="chat-box" id="chat-box">
-            <div class="chat-log" id="chat-log"></div>
-          </div>
-          <div class="chat-input">
-            <input
-              type="text"
-              id="user-input"
-              placeholder="Type your message here..."
-              autocomplete="off"
-            />
-            <button id="send-btn">Send</button>
-          </div>
-        </div>
-
-        <!-- Chatbot JavaScript -->
-        <script src="chatbot/script.js"></script>
-      </section>
-
-
-      <!-- Contact Section -->
-      <section id="contact" class="contact section">
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <h2>Contact</h2>
-          <p>
-            Necessitatibus eius consequatur ex aliquid fuga eum quidem sint
-            consectetur velit
-          </p>
-        </div>
-        <!-- End Section Title -->
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-          <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="col-lg-4">
-              <div
-                class="info-item d-flex flex-column justify-content-center align-items-center"
-              >
-                <i class="bi bi-geo-alt"></i>
-                <h3>Address</h3>
-                <p>A108 XYZ Street, India - 110059</p>
-              </div>
-            </div>
-            <!-- End Info Item -->
-
-            <div class="col-lg-4">
-              <div
-                class="info-item d-flex flex-column justify-content-center align-items-center info-item-borders"
-              >
-                <i class="bi bi-telephone"></i>
-                <h3>Call Us</h3>
-                <p>+91-700000000</p>
-              </div>
-            </div>
-            <!-- End Info Item -->
-
-            <div class="col-lg-4">
-              <div
-                class="info-item d-flex flex-column justify-content-center align-items-center"
-              >
-                <i class="bi bi-envelope"></i>
-                <h3>Email Us</h3>
-                <p>biosphere@example.com</p>
-              </div>
-            </div>
-            <!-- End Info Item -->
-          </div>
-
-          <form
-            action="forms/contact.php"
-            method="post"
-            class="php-email-form"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
-            <div class="row gy-4">
-              <div class="col-md-6">
-                <input
-                  type="text"
-                  name="name"
-                  class="form-control"
-                  placeholder="Your Name"
-                  required=""
-                />
-              </div>
-
-              <div class="col-md-6">
-                <input
-                  type="email"
-                  class="form-control"
-                  name="email"
-                  placeholder="Your Email"
-                  required=""
-                />
-              </div>
-
-              <div class="col-md-12">
-                <input
-                  type="text"
-                  class="form-control"
-                  name="subject"
-                  placeholder="Subject"
-                  required=""
-                />
-              </div>
-
-              <div class="col-md-12">
-                <textarea
-                  class="form-control"
-                  name="message"
-                  rows="6"
-                  placeholder="Message"
-                  required=""
-                ></textarea>
-              </div>
-
-              <div class="col-md-12 text-center">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">
-                  Your message has been sent. Thank you!
-                </div>
-
-                <button type="submit">Send Message</button>
-              </div>
-            </div>
-          </form>
-          <!-- End Contact Form -->
-        </div>
-      </section>
-      <!-- /Contact Section -->
-    </main>
-
-    <footer id="footer" class="footer dark-background">
-      <div class="container">
-        <div class="row gy-3">
-          <div class="col-lg-3 col-md-6 d-flex">
-            <i class="bi bi-geo-alt icon"></i>
-            <div class="address">
-              <h4>Address</h4>
-              <p>A108 XYZ Street</p>
-              <p>India - 110059</p>
-              <p></p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex">
-            <i class="bi bi-telephone icon"></i>
-            <div>
-              <h4>Contact</h4>
-              <p>
-                <strong>Phone:</strong> <span>+91-700000000</span><br />
-                <strong>Email:</strong> <span>biosphere@example.com</span><br />
-              </p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex">
-            <i class="bi bi-clock icon"></i>
-            <div>
-              <h4>Opening Hours</h4>
-              <p>
-                <strong>Mon-Sat:</strong> <span>9:00 AM - 10:00 PM</span><br />
-                <strong>Sunday</strong>: <span>Closed</span>
-              </p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <h4>Follow Us</h4>
-            <div class="social-links d-flex">
-              <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </div>
+        <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
+          <div class="content">
+            <h3>About BioSphere</h3>
+            <p>
+              BioSphere is a pioneering research and education hub dedicated to transforming healthcare through
+              cutting-edge research, advanced technology, and innovative learning.
+            </p>
+            <ul>
+              <li>
+                <i class="bi bi-check-circle-fill"></i>
+                <span>
+                  <b>Mission: </b>Our mission is to bridge the gap between biotechnology and digital innovation, driving
+                  scientific discoveries that shape the future of medicine.
+                </span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill"></i>
+                <span>
+                  <b>Vision: </b>To establish BioSphere as a leading research hub driving breakthrough innovations in
+                  cancer diagnostics, biotechnology, and healthcare solutions.
+                </span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill"></i>
+                <span>
+                  <b>Innovative Solutions: </b>From AI-driven diagnostics to precision medicine, we develop
+                  transformative solutions that push the boundaries of biotechnology. By fostering collaboration and
+                  knowledge-sharing, we empower the next generation of scientists to drive impactful change in global
+                  healthcare.
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Go-to-Market Strategy</h2>
+    <img src="assets/img/market.png" alt="">
+  </div>
+  <!-- Team Section -->
+  <section id="team" class="team section">
+    <!-- <img src="assets/img/team-bg.jpg" alt="" data-aos="fade-in" /> -->
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Meet the Team</h2>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit nemo modi quaerat facilis autem, nesciunt ipsum
+        quisquam consequatur.
+      </p>
+    </div>
+    <!-- End Section Title -->
 
-      <div class="container copyright text-center mt-4">
-        <p>
-          © <span>Copyright</span> <strong class="px-1 sitename">Bell</strong>
-          <span>All Rights Reserved</span>
-        </p>
-        <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you've purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="card-item">
+            <div class="row">
+              <div class="col-xl-5">
+                <div class="card-bg">
+                  <img src="assets/img/team/team-1.jpg" alt="" />
+                </div>
+              </div>
+              <div class="col-xl-7 d-flex align-items-center">
+                <div class="card-body">
+                  <h4 class="card-title">Dr ABC</h4>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum dicta dolores necessitatibus optio
+                    accusamus? Nulla architecto aspernatur expedita placeat rem quaerat nisi ut itaque perferendis quis!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Card Item -->
+
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="card-item">
+            <div class="row">
+              <div class="col-xl-5">
+                <div class="card-bg">
+                  <img src="assets/img/team/team-2.jpg" alt="" />
+                </div>
+              </div>
+              <div class="col-xl-7 d-flex align-items-center">
+                <div class="card-body">
+                  <h4 class="card-title">
+                    Ms XYZ
+                  </h4>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque earum, neque quis natus voluptates
+                    dolor veritatis. Iusto, ullam facere? Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Card Item -->
+
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="card-item">
+            <div class="row">
+              <div class="col-xl-5">
+                <div class="card-bg">
+                  <img src="assets/img/team/team-3.jpg" alt="" />
+                </div>
+              </div>
+              <div class="col-xl-7 d-flex align-items-center">
+                <div class="card-body">
+                  <h4 class="card-title">
+                    Dr ABC
+                  </h4>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque earum, neque quis natus voluptates
+                    dolor veritatis. Iusto, ullam facere? Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Card Item -->
+
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+          <div class="card-item">
+            <div class="row">
+              <div class="col-xl-5">
+                <div class="card-bg">
+                  <img src="assets/img/team/team-4.jpg" alt="" />
+                </div>
+              </div>
+              <div class="col-xl-7 d-flex align-items-center">
+                <div class="card-body">
+                  <h4 class="card-title">
+                    Mr XYZ
+                  </h4>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque earum, neque quis natus voluptates
+                    dolor veritatis. Iusto, ullam facere? Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Card Item -->
+      </div>
+    </div>
+  </section>
+  <!-- /Team Section -->
+
+
+  <!-- ChatBot Section -->
+  <section class="chatbot">
+    <button id="chatbot-toggle-btn" class="chatbot-toggle-btn">Chat</button>
+
+    <!-- Chatbot Container -->
+
+    <div id="chatbot-container" class="chatbot-container hidden">
+      <!-- Header Section  -->
+      <div class="chatbot-header">
+        <h2 class="chatbot-name">Ask your Query</h2>
+      </div>
+      <div class="chat-box" id="chat-box">
+        <div class="chat-log" id="chat-log"></div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off" />
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+
+    <!-- Chatbot JavaScript -->
+    <script src="chatbot/script.js"></script>
+  </section>
+
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Contact</h2>
+    </div>
+    <!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-4">
+          <div class="info-item d-flex flex-column justify-content-center align-items-center">
+            <i class="bi bi-geo-alt"></i>
+            <h3>Address</h3>
+            <p>Shahwajpur, Muzaffarpur, Bihar, India-842004</p>
+          </div>
+        </div>
+        <!-- End Info Item -->
+
+        <div class="col-lg-4">
+          <div class="info-item d-flex flex-column justify-content-center align-items-center info-item-borders">
+            <i class="bi bi-telephone"></i>
+            <h3>Call Us</h3>
+            <p>+91-7519990367</p>
+          </div>
+        </div>
+        <!-- End Info Item -->
+
+        <div class="col-lg-4">
+          <div class="info-item d-flex flex-column justify-content-center align-items-center">
+            <i class="bi bi-envelope"></i>
+            <h3>Email Us</h3>
+            <p>anurag.mdiagnostic@gmail.com</p>
+          </div>
+        </div>
+        <!-- End Info Item -->
+      </div>
+
+      <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="300">
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <input type="text" name="name" class="form-control" placeholder="Your Name" required="" />
+          </div>
+
+          <div class="col-md-6">
+            <input type="email" class="form-control" name="email" placeholder="Your Email" required="" />
+          </div>
+
+          <div class="col-md-12">
+            <input type="text" class="form-control" name="subject" placeholder="Subject" required="" />
+          </div>
+
+          <div class="col-md-12">
+            <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+          </div>
+
+          <div class="col-md-12 text-center">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">
+              Your message has been sent. Thank you!
+            </div>
+
+            <button type="submit">Send Message</button>
+          </div>
+        </div>
+      </form>
+      <!-- End Contact Form -->
+    </div>
+  </section>
+  <!-- /Contact Section -->
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="container">
+      <div class="row gy-3">
+        <div class="col-lg-3 col-md-6 d-flex">
+          <i class="bi bi-geo-alt icon"></i>
+          <div class="address">
+            <h4>Address</h4>
+            <p>Shahwajpur, Muzaffarpur</p>
+            <p>Bihar, India -842004</p>
+            <p></p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 d-flex">
+          <i class="bi bi-telephone icon"></i>
+          <div>
+            <h4>Contact</h4>
+            <p>
+              <strong>Phone:</strong> <span>+917519990367</span><br />
+              <strong>Email:</strong> <span>anurag.mdiagnostic@gmail.com</span><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 d-flex">
+          <i class="bi bi-clock icon"></i>
+          <div>
+            <h4>Opening Hours</h4>
+            <p>
+              <strong>Mon-Sat:</strong> <span>09:00 AM - 05:00 PM</span><br />
+              <strong>Saturday, Sunday</strong>: <span>Closed</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h4>Follow Us</h4>
+          <div class="social-links d-flex">
+            <a href="https://www.linkedin.com/company/biosphereresearchandlearninghub/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
         </div>
       </div>
-    </footer>
+    </div>
 
-    <!-- Scroll Top -->
-    <a
-      href="#"
-      id="scroll-top"
-      class="scroll-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+    <div class="container copyright text-center mt-4">
+      <p>
+        © <span>Copyright</span> <strong class="px-1 sitename">Bell</strong>
+        <span>All Rights Reserved</span>
+      </p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Preloader -->
-    <div id="preloader"></div>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <!-- Preloader -->
+  <div id="preloader"></div>
 
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src=assets/js/map.js></script>
-  </body>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src=assets/js/map.js></script>
+</body>
+
 </html>
