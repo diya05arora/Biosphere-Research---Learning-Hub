@@ -1100,6 +1100,7 @@ section,
 
 .img-founder{
   height: 200px;
+  width: 170px;
 }
 @media (max-width: 1200px) {
   .img-founder {
