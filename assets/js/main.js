@@ -6,16 +6,7 @@
 * License: https://bootstrapmade.com/license/
 */
 
-/* take to map button */
-document.addEventListener('DOMContentLoaded', function () {
-  const button = document.getElementById('takeToMapButton');
-  button.addEventListener('click', function () {
-    const mapSection = document.getElementById('services');
-    mapSection.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-(function() {
+(function () {
   "use strict";
 
   /**
@@ -59,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
    * Toggle mobile nav dropdowns
    */
   document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
+    navmenu.addEventListener('click', function (e) {
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
@@ -126,13 +117,13 @@ document.addEventListener('DOMContentLoaded', function () {
   /**
    * Init isotope layout and filters
    */
-  document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
+  document.querySelectorAll('.isotope-layout').forEach(function (isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
 
     let initIsotope;
-    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
+    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function () {
       initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
         itemSelector: '.isotope-item',
         layoutMode: layout,
@@ -141,8 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
-      filters.addEventListener('click', function() {
+    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function (filters) {
+      filters.addEventListener('click', function () {
         isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
         this.classList.add('filter-active');
         initIsotope.arrange({
@@ -160,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
    * Init swiper sliders
    */
   function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
+    document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
       );
@@ -178,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
   /**
    * Correct scrolling position upon page load for URLs containing hash links.
    */
-  window.addEventListener('load', function(e) {
+  window.addEventListener('load', function (e) {
     if (window.location.hash) {
       if (document.querySelector(window.location.hash)) {
         setTimeout(() => {
@@ -216,3 +207,154 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+
+// Attach login handler only if the element exists on the page
+const userLoginFormEl = document.getElementById("userLoginForm");
+if (userLoginFormEl) {
+  userLoginFormEl.addEventListener("submit", async (e) => {
+    e.preventDefault(); // prevent default form reload
+
+    const emailEl = document.getElementById("userEmail");
+    const usernameEl = document.getElementById("username");
+    const passwordEl = document.getElementById("userPassword");
+
+    const email = emailEl ? emailEl.value : "";
+    const username = usernameEl ? usernameEl.value : "";
+    const password = passwordEl ? passwordEl.value : "";
+
+    const messageEl = document.getElementById("userLoginMessage");
+    if (messageEl) messageEl.textContent = "Logging in...";
+
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, username, password, role: "user" })
+      });
+
+      const data = await res.json();
+
+      if (messageEl) {
+        if (res.ok) {
+          messageEl.style.color = "green";
+          messageEl.textContent = data.message || "Login successful!";
+        } else {
+          messageEl.style.color = "red";
+          messageEl.textContent = data.message || "Login failed. Please check your credentials.";
+        }
+      }
+    } catch (error) {
+      if (messageEl) {
+        messageEl.style.color = "red";
+        messageEl.textContent = "An error occurred while logging in. Please try again.";
+      }
+      console.error(error);
+    }
+  });
+} else {
+  console.debug('userLoginForm not found on page; skipping login handler attachment');
+}
+
+const adminLoginFormEl = document.getElementById("adminLoginForm");
+if (adminLoginFormEl) {
+  adminLoginFormEl.addEventListener("submit", async (e) => {
+  e.preventDefault(); // prevent default form reload
+    const email = document.getElementById("adminEmail").value;
+    const username = document.getElementById("adminname").value;
+    const password = document.getElementById("adminPassword").value;
+
+    const messageEl = document.getElementById("adminLoginMessage");
+    if (messageEl) messageEl.textContent = "Logging in...";
+
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, username, password, role: "admin" })
+      });
+
+      const data = await res.json();
+
+      if (messageEl) {
+        if (res.ok) {
+          messageEl.style.color = "green";
+          messageEl.textContent = data.message || "Login successful!";
+        } else {
+          messageEl.style.color = "red";
+          messageEl.textContent = data.message || "Login failed. Please check your credentials.";
+        }
+      }
+    } catch (error) {
+      if (messageEl) {
+        messageEl.style.color = "red";
+        messageEl.textContent = "An error occurred while logging in. Please try again.";
+      }
+      console.error(error);
+    }
+  });
+} else {
+  console.debug('adminLoginForm not found on page; skipping admin login handler attachment');
+}
+
+const signupFormEl = document.getElementById("signupForm");
+if (signupFormEl) {
+  signupFormEl.addEventListener("submit", async (e) => {
+    e.preventDefault(); // prevent default form reload
+
+    const fullName = document.getElementById("fullName") ? document.getElementById("fullName").value : "";
+    const email = document.getElementById("userEmail") ? document.getElementById("userEmail").value : "";
+    const username = document.getElementById("username") ? document.getElementById("username").value : "";
+    const password = document.getElementById("userPassword") ? document.getElementById("userPassword").value : "";
+
+    const messageEl = document.getElementById("signupMessage");
+    if (messageEl) messageEl.textContent = "Signing up...";
+
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ fullName, email, username, password, role: "user" })
+      });
+
+      const data = await res.json();
+
+      if (messageEl) {
+        if (res.ok) {
+          messageEl.style.color = "green";
+          messageEl.textContent = data.message || "Sign up successful!";
+        } else {
+          messageEl.style.color = "red";
+          messageEl.textContent = data.message || "Sign up failed. Please check your details.";
+        }
+      }
+    } catch (error) {
+      if (messageEl) {
+        messageEl.style.color = "red";
+        messageEl.textContent = "An error occurred while signing up. Please try again.";
+      }
+      console.error(error);
+    }
+  });
+} else {
+  console.debug('signupForm not found on page; skipping signup handler attachment');
+}
+
+
+const googleLoginBtnEl = document.getElementById("googleLoginBtn");
+if (googleLoginBtnEl) {
+  googleLoginBtnEl.addEventListener("click", () => {
+    // Redirect to the backend Google OAuth endpoint
+    window.location.href = "http://localhost:8000/api/v1/users/auth/google";
+  });
+} else {
+  console.debug('googleLoginBtn not found; skipping Google OAuth button handler');
+}
+
+

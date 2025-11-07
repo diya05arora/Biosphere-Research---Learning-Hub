@@ -87,7 +87,7 @@
     color: var(--heading-color);
     font-family: var(--heading-font);
   }
-  #contact {
+  #login {
     padding-top: 130px; /* Adjust this value as needed */
   }
   
@@ -108,59 +108,6 @@
   
   
   
-  
-  
-  /* PHP Email Form Messages
-  ------------------------------*/
-  .php-email-form .error-message {
-    display: none;
-    background: #df1529;
-    color: #ffffff;
-    text-align: left;
-    padding: 15px;
-    margin-bottom: 24px;
-    font-weight: 600;
-  }
-  
-  .php-email-form .sent-message {
-    display: none;
-    color: #ffffff;
-    background: #059652;
-    text-align: center;
-    padding: 15px;
-    margin-bottom: 24px;
-    font-weight: 600;
-  }
-  
-  .php-email-form .loading {
-    display: none;
-    background: var(--surface-color);
-    text-align: center;
-    padding: 15px;
-    margin-bottom: 24px;
-  }
-  
-  .php-email-form .loading:before {
-    content: "";
-    display: inline-block;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px -6px 0;
-    border: 3px solid var(--accent-color);
-    border-top-color: var(--surface-color);
-    animation: php-email-form-loading 1s linear infinite;
-  }
-  
-  @keyframes php-email-form-loading {
-    0% {
-      transform: rotate(0deg);
-    }
-  
-    100% {
-      transform: rotate(360deg);
-    }
-  }
   
   /*--------------------------------------------------------------
   # Global Header
@@ -217,6 +164,19 @@
   .login-link{
     padding: 2%;
     border: 1px solid white;
+  }
+
+  .signup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: large;
+  }
+
+  .signup-link{
+    text-decoration: underline;
+    color: #127f92;
   }
   
   @media (max-width: 1200px) {
@@ -797,158 +757,14 @@
       font-size: 18px;
     }
   }
-  
-  /*--------------------------------------------------------------
-  # About Section
-  --------------------------------------------------------------*/
-  .about .content h3 {
-    font-size: 2rem;
-    font-weight: 700;
+
+  .login-form {
+      border: 3px solid #0e363e;
+      border-radius: 2%;
+      padding: 7%;
   }
-  
-  .about .content p {
-    margin: 30px 0;
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-  }
-  
-  .about .content ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .about .content ul li {
-    padding: 0 0 15px 0;
-    font-weight: 600;
-    display: flex;
-  }
-  
-  .about .content ul i {
-    color: var(--accent-color);
-    font-size: 1.25rem;
-    line-height: 1.2;
-    margin-right: 0.5rem;
-  }
-  
-  
-  /*--------------------------------------------------------------
-  # Team Section
-  --------------------------------------------------------------*/
-  
-  
-  
-  .team .card-item {
-  
-    background-color: var(--surface-color);
-    
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-    position: relative;
-    border-radius: 0;
-  }
-  
-  .team .card-item .card-bg {
-    min-height: 300px;
-    position: relative;
-  }
-  
-  .team .card-item .card-bg img {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: 1;
-  }
-  
-  .team .card-item .card-body {
-    padding: 30px;
-  }
-  
-  .team .card-item h4 {
-    font-weight: 700;
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #199eb8
-  }
-  
-  .team .card-item p {
-    color:#808080;
-    margin: 0;
-  }
-  
-  
-  
-  /*--------------------------------------------------------------
-  # Contact Section
-  --------------------------------------------------------------*/
-  .contact .info-item i {
-    font-size: 20px;
-    color: var(--accent-color);
-    font-size: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .contact .info-item h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 20px 0;
-  }
-  
-  .contact .info-item p {
-    padding: 0;
-    margin-bottom: 0;
-    font-size: 14px;
-  }
-  
-  @media (min-width: 992px) {
-    .contact .info-item.info-item-borders {
-      border-left: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-      border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-    }
-  }
-  
-  .contact .php-email-form {
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-top: 30px;
-  }
-  
-  @media (max-width: 575px) {
-    .contact .php-email-form {
-      padding: 20px;
-    }
-  }
-  
-  .contact .php-email-form input[type=text],
-  .contact .php-email-form input[type=email],
-  .contact .php-email-form textarea {
-    font-size: 14px;
-    padding: 10px 15px;
-    box-shadow: none;
-    border-radius: 0;
-    color: var(--default-color);
-    background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-    border-color: color-mix(in srgb, var(--default-color), transparent 80%);
-  }
-  
-  .contact .php-email-form input[type=text]:focus,
-  .contact .php-email-form input[type=email]:focus,
-  .contact .php-email-form textarea:focus {
-    border-color: var(--accent-color);
-  }
-  
-  .contact .php-email-form input[type=text]::placeholder,
-  .contact .php-email-form input[type=email]::placeholder,
-  .contact .php-email-form textarea::placeholder {
-    color: color-mix(in srgb, var(--default-color), transparent 70%);
-  }
-  
-  .contact .php-email-form button[type=submit] {
+
+  .login-form button[type=submit] {
     color: var(--contrast-color);
     background: var(--accent-color);
     border: 0;
@@ -956,13 +772,34 @@
     transition: 0.4s;
     border-radius: 4px;
   }
-  
-  .contact .php-email-form button[type=submit]:hover {
-    background: #1e3148;
+.google-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+#googleLoginBtn {
+    color: var(--contrast-color);
+    background: var(--accent-color);
+    border: 0;
+    padding: 10px 30px;
+    transition: 0.4s;
+    border-radius: 4px;
   }
-  
-  /* Hidden class to toggle visibility */
-  .hidden {
-    display: none;
+
+  #googleLogo {
+    width: 25px;
+    height: 25px;
+    margin-left: 8px;
+    vertical-align: middle;
   }
-  
+
+  .or-divider {
+    text-align: center;
+    margin: 20px 0;
+    font-size: large;
+    font-weight: bold;
+    color: #555555;
+  }

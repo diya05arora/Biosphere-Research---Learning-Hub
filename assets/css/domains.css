@@ -200,6 +200,7 @@
   .header .header-social-links a {
     color: color-mix(in srgb, var(--default-color), transparent 40%);
     padding-left: 6px;
+    padding-right: 6px;
     display: inline-block;
     transition: 0.3s;
     font-size: 16px;
@@ -211,6 +212,11 @@
   
   .header .header-social-links a i {
     line-height: 0px;
+  }
+
+  .login-link{
+    padding: 2%;
+    border: 1px solid white;
   }
   
   @media (max-width: 1200px) {
