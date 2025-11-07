@@ -227,7 +227,7 @@ if (userLoginFormEl) {
     if (messageEl) messageEl.textContent = "Logging in...";
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/users/login", {
+      const res = await fetch("https://biosphere-research-learning-hub.onrender.com/api/v1/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -270,7 +270,7 @@ if (adminLoginFormEl) {
     if (messageEl) messageEl.textContent = "Logging in...";
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/users/login", {
+      const res = await fetch("https://biosphere-research-learning-hub.onrender.com/api/v1/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -315,7 +315,7 @@ if (signupFormEl) {
     if (messageEl) messageEl.textContent = "Signing up...";
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/users/register", {
+      const res = await fetch("https://biosphere-research-learning-hub.onrender.com/api/v1/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -351,7 +351,7 @@ const googleLoginBtnEl = document.getElementById("googleLoginBtn");
 if (googleLoginBtnEl) {
   googleLoginBtnEl.addEventListener("click", () => {
     // Redirect to the backend Google OAuth endpoint
-    window.location.href = "http://localhost:8000/api/v1/users/auth/google";
+    window.location.href = "https://biosphere-research-learning-hub.onrender.com/api/v1/users/auth/google";
   });
 } else {
   console.debug('googleLoginBtn not found; skipping Google OAuth button handler');
