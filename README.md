@@ -176,9 +176,8 @@ Contributions are welcome. If the repository does not yet include a `CONTRIBUTIN
 
 Guidelines:
 - Fork the repository and open a PR against `master`.
-- Keep changes focused and add tests where reasonable.
+- Keep changes focused.
 
-See `docs/CONTRIBUTING.md` (if present) for the full contribution workflow.
 
 ---
 
