@@ -241,6 +241,7 @@ if (userLoginFormEl) {
         if (res.ok) {
           messageEl.style.color = "green";
           messageEl.textContent = data.message || "Login successful!";
+          window.location.href = "events.html";
         } else {
           messageEl.style.color = "red";
           messageEl.textContent = data.message || "Login failed. Please check your credentials.";
@@ -284,6 +285,7 @@ if (adminLoginFormEl) {
         if (res.ok) {
           messageEl.style.color = "green";
           messageEl.textContent = data.message || "Login successful!";
+          window.location.href = "dashboard.html";
         } else {
           messageEl.style.color = "red";
           messageEl.textContent = data.message || "Login failed. Please check your credentials.";
