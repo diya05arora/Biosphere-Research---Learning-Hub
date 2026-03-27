@@ -1,0 +1,42 @@
+@import url('/assets/css/main.css');
+@import url('/assets/css/about.css');
+@import url('/assets/css/contact.css');
+@import url('/assets/css/domains.css');
+@import url('/assets/css/events.css');
+@import url('/assets/css/login.css');
+@import url('/assets/css/signup.css');
+
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.header .header-social-links .login-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 2px solid #127f92;
+  background: #127f92;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 2;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.header .header-social-links button.login-link {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.header .header-social-links .login-link:hover {
+  background: #0e363e;
+  border-color: #0e363e;
+  color: #ffffff;
+  transform: translateY(-1px);
+}

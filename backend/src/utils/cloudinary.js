@@ -13,21 +13,16 @@ cloudinary.config({
 
 const uploadOnCloudinary = async (localFilePath) => {
     try {
-        console.log("uploadOnCloudinary called with:", localFilePath);
         if(!localFilePath) {
-            console.log("No file path provided, returning null");
             return null;
         }
-        console.log("Starting Cloudinary upload...");
         const response = await cloudinary.uploader.upload(
             localFilePath, {
                 resource_type: "auto"
             }
         )
-        console.log("File uploaded on Cloudinary, File src: " + response.url);
         return response;
     } catch(error) {
-        console.log("Error uploading file to Cloudinary: ", error);
         throw new ApiError(500, "Cloudinary upload failed");
     }
 }
@@ -35,10 +30,8 @@ const uploadOnCloudinary = async (localFilePath) => {
 const deleteFromCloudinary = async (publicId) => {
     try {
         const result = await cloudinary.uploader.destroy(publicId);
-        console.log("File deleted from Cloudinary, Public ID: " + publicId);
         return result;
     } catch (error) {
-        console.log("Error deleting file from Cloudinary: ", error);
         return null;
     }
 }

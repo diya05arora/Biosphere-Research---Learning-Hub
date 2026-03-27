@@ -1,17 +1,34 @@
 import { Router } from "express";
 import passport from "passport";
+import rateLimit from "express-rate-limit";
 import { registerUser, logoutUser, loginUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, deleteUserAccount} from "../controllers/user.controllers.js"
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router()
 
+// Strict rate limiting for authentication endpoints only
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: "Too many authentication attempts, please try again later",
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: (req) => {
+        // Skip rate limiting for non-auth endpoints
+        const authPaths = ["/login", "/register", "/create-admin", "/refresh-token", "/auth/google", "/auth/google/callback"];
+        return !authPaths.some(path => req.path.includes(path));
+    }
+});
+
 router.route("/auth/google").get(
+    authLimiter,
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 router.route(
   "/auth/google/callback"
 ).get(
+    authLimiter,
   passport.authenticate("google", { session: false, failureRedirect: "/login" }),
   async (req, res) => {
     try {
@@ -46,13 +63,13 @@ router.route(
   }
 );
 
-// unsecured routes
-router.route("/register").post(registerUser)
-router.route("/create-admin").post(registerUser);
+// unsecured routes - apply authLimiter
+router.route("/register").post(authLimiter, registerUser)
+router.route("/create-admin").post(authLimiter, registerUser);
 
-router.route("/login").post(loginUser)
+router.route("/login").post(authLimiter, loginUser)
 
-router.route("/refresh-token").post(refreshAccessToken)
+router.route("/refresh-token").post(authLimiter, refreshAccessToken)
 
 // secured routes
 router.route("/logout").post(

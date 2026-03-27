@@ -29,11 +29,11 @@ const registerUser = asyncHandler(async (req, res) => {
     if (req.body === undefined) {
         throw new ApiError(400, "All fields are required.")
     }
-    const { fullName, email, username, password, role } = req.body
+    const { fullName, email, username, password } = req.body
 
     // validation
     if (
-        [fullName, email, username, password, role].some((field) => field?.trim() === "" || field === undefined)
+        [fullName, email, username, password].some((field) => field?.trim() === "" || field === undefined)
     ) {
         throw new ApiError(400, "All fields are required.")
     }
@@ -51,8 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
             fullName,
             email,
             password,
-            username: username.toLowerCase(),
-            role
+            username: username.toLowerCase()
         })
 
         const createdUser = await User.findById(user._id).select(
@@ -68,7 +67,6 @@ const registerUser = asyncHandler(async (req, res) => {
             .json(new ApiResponse(201, createdUser, "User registered successfully!"))
 
     } catch (error) {
-        console.log("User creation failed: ", error);
         throw new ApiError(500, "Something went wrong while registering a user and images were deleted!")
     }
 
@@ -80,7 +78,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if (req.body === undefined) {
         throw new ApiError(400, "All fields are required.")
     }
-    const { email, username, password, role } = req.body;
+    const { email, username, password } = req.body;
 
     // validation
     if (!email) {
@@ -118,7 +116,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict"
     }
 
     return res.status(200)
@@ -155,7 +154,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
         const options = {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production"
+            secure: process.env.NODE_ENV !== "development",
+            sameSite: "strict"
         }
 
         const { accessToken, refreshToken: newRefreshToken } = 
@@ -184,7 +184,8 @@ const logoutUser = asyncHandler( async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict"
     }
 
     return res.status(200)

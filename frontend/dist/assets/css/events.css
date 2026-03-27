@@ -1,0 +1,122 @@
+/* Custom styles for the events page */
+
+/* Event Cards Container */
+#events-container .col-lg-4,
+#events-container .col-md-6 {
+    margin-bottom: 2rem;
+}
+
+/* Event Cards */
+#events-container .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(14, 54, 62, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    background: #ffffff;
+    height: 100%;
+}
+
+#events-container .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(18, 127, 146, 0.25);
+}
+
+#events-container .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 3px solid #127f92;
+}
+
+#events-container .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#events-container .card-title {
+    color: #0e363e;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+#events-container .card-text {
+    color: #555555;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+#events-container .card-text strong {
+    color: #0e363e;
+    font-weight: 600;
+}
+
+/* Button Styles */
+.btn-register {
+    background: linear-gradient(90deg, #1e3148 0%, #127f92 100%);
+    border: none;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.btn-register:hover {
+    background: linear-gradient(90deg, #0f1f2e 0%, #0d5f6d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(18, 127, 146, 0.4);
+    color: #ffffff;
+}
+
+.btn-unregister {
+    background: #0e363e;
+    border: none;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.btn-unregister:hover {
+    background: #1e4a54;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(14, 54, 62, 0.4);
+    color: #ffffff;
+}
+
+/* Section Title Styling */
+#events .section-title h2 {
+    color: #0e363e;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+#events .section-title p {
+    color: #555555;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #events-container .card-img-top {
+        height: 180px;
+    }
+    
+    #events-container .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .btn-register, .btn-unregister {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}

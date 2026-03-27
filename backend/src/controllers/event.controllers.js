@@ -17,7 +17,6 @@ const createEvent = asyncHandler(async (req, res) => {
     }
 
     const imageLocalPath = req.file?.path;
-    console.log("Image local path: ", imageLocalPath);
 
     // Normalize incoming payload and validate
     const normalized = normalizeEventPayload(req.body, {});
@@ -26,7 +25,6 @@ const createEvent = asyncHandler(async (req, res) => {
         deleteUnusedFiles(imageLocalPath);
         throw new ApiError(400, "All fields are required.");
     }
-    console.log("Normalized Event Payload: ", normalized);
 
     const { title, description, location, date, startTime, endTime } = normalized;
 
@@ -36,7 +34,6 @@ const createEvent = asyncHandler(async (req, res) => {
         deleteUnusedFiles(imageLocalPath);
         throw new ApiError(409, "Event with this title already exists");
     }
-    console.log("existed event", existedEvent);
 
     if(startTime >= endTime){
         deleteUnusedFiles(imageLocalPath);
@@ -76,7 +73,6 @@ const createEvent = asyncHandler(async (req, res) => {
         if (!imageLocalPath) {
             throw new ApiError(400, "Image is required");
         }
-        console.log("Attempting to upload file:", imageLocalPath);
         image = await uploadOnCloudinary(imageLocalPath);
     } catch (error) {
         console.error("Upload error details:", error);
@@ -103,12 +99,13 @@ const createEvent = asyncHandler(async (req, res) => {
             throw new ApiError(500, "Something went wrong while creating an event!")
         }
 
-        return res
+        const response = res
             .status(201)
-            .json(new ApiResponse(201, createdEvent, "Event created successfully!"))
+            .json(new ApiResponse(201, createdEvent, "Event created successfully!"));
+        
+        return response;
 
     } catch (error) {
-        console.log("Event creation failed: ", error);
         deleteUnusedFiles(imageLocalPath);
 
         if (image) {
@@ -271,7 +268,10 @@ const unregisterFromEvent = asyncHandler(async(req, res) => {
 });
 
 const getAllEvents = asyncHandler(async (req, res) => {
-    const events = await Event.find();
+    const events = await Event.find({
+        endTime: { $gte: new Date() }
+    }).sort({ date: 1, startTime: 1
+    });
     if (!events) {
         throw new ApiError(404, "No events found");
     }
