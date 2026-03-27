@@ -54,9 +54,11 @@ router.route(
       res.cookie("accessToken", accessToken, options);
       res.cookie("refreshToken", refreshToken, options);
 
-      // Redirect with only role - keeps URL short, tokens already in cookies
-      const isAdmin = user.role === "admin" ? "true" : "false";
-      const callbackUrl = `${process.env.FRONTEND_URL}/?authSuccess=true&isAdmin=${isAdmin}`;
+      // Also send tokens in URL for frontend to use (frontend will store in localStorage)
+      // Encode user data safely
+      const userData = btoa(JSON.stringify(user));
+      
+      const callbackUrl = `${process.env.FRONTEND_URL}/?authSuccess=true&role=${user.role}&token=${accessToken}&user=${encodeURIComponent(userData)}`;
       res.redirect(callbackUrl);
     } catch (error) {
       console.error("Error in Google callback route:", error);
