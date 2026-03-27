@@ -15,7 +15,7 @@ const authLimiter = rateLimit({
     legacyHeaders: false,
     skip: (req) => {
         // Skip rate limiting for non-auth endpoints
-        const authPaths = ["/login", "/register", "/create-admin", "/refresh-token", "/auth/google", "/auth/google/callback"];
+        const authPaths = ["/login", "/register", "/create-admin", "/refresh-token", "/auth/google", "/auth/google-url", "/auth/google/callback"];
         return !authPaths.some(path => req.path.includes(path));
     }
 });
@@ -24,6 +24,26 @@ router.route("/auth/google").get(
     authLimiter,
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
+
+// New endpoint: Get Google OAuth URL for frontend to use
+router.route("/auth/google-url").get((req, res) => {
+  try {
+    // Generate the Google OAuth URL
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams({
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      redirect_uri: process.env.GOOGLE_CALLBACK_URL,
+      response_type: 'code',
+      scope: 'profile email',
+      access_type: 'online',
+      prompt: 'consent'
+    }).toString()}`;
+    
+    res.json({ authUrl: googleAuthUrl });
+  } catch (error) {
+    console.error("Error generating Google OAuth URL:", error);
+    res.status(500).json({ message: "Could not generate Google OAuth URL" });
+  }
+});
 
 router.route(
   "/auth/google/callback"

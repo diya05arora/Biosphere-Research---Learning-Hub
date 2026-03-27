@@ -95,15 +95,15 @@ function Footer() {
 export default function Layout({ active, children, showLogout = false, onLogout }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [hasAccessToken, setHasAccessToken] = useState(Boolean(localStorage.getItem("accessToken")));
+  const [hasRefreshToken, setHasRefreshToken] = useState(Boolean(localStorage.getItem("refreshToken")));
 
   useEffect(() => {
-    setHasAccessToken(Boolean(localStorage.getItem("accessToken")));
+    setHasRefreshToken(Boolean(localStorage.getItem("refreshToken")));
   }, [location.pathname]);
 
   useEffect(() => {
     function handleStorageChange() {
-      setHasAccessToken(Boolean(localStorage.getItem("accessToken")));
+      setHasRefreshToken(Boolean(localStorage.getItem("refreshToken")));
     }
 
     window.addEventListener("storage", handleStorageChange);
@@ -112,7 +112,7 @@ export default function Layout({ active, children, showLogout = false, onLogout 
     };
   }, []);
 
-  const shouldShowLogout = showLogout || hasAccessToken;
+  const shouldShowLogout = showLogout || hasRefreshToken;
 
   function handleLogout() {
     if (typeof onLogout === "function") {
@@ -121,7 +121,10 @@ export default function Layout({ active, children, showLogout = false, onLogout 
     }
 
     localStorage.removeItem("accessToken");
-    setHasAccessToken(false);
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("userRole");
+    setHasRefreshToken(false);
     navigate("/login");
   }
 

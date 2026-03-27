@@ -79,7 +79,7 @@ export default function EventsPage() {
   async function load() {
     setIsLoading(true);
     setErrorMessage("");
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("refreshToken");
     if (!token) {
       setCanViewEvents(false);
       setUserId(null);

@@ -10,13 +10,15 @@ export async function apiRequest(path, options = {}) {
     ...(options.headers || {})
   };
 
-  if (token) {
+  // Only set Bearer token if it's an actual JWT (not just "true")
+  if (token && token !== "true") {
     headers.Authorization = `Bearer ${token}`;
   }
 
   const response = await fetch(`${BASE_API_URL}${path}`, {
     ...options,
-    headers
+    headers,
+    credentials: "include" // Send httpOnly cookies for Google OAuth
   });
 
   let payload = null;

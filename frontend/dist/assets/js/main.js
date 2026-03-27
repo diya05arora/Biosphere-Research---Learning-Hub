@@ -291,7 +291,7 @@ if (adminLoginFormEl) {
           messageEl.style.color = "green";
           messageEl.textContent = data.message || "Login successful!";
           localStorage.setItem('accessToken', data.data.accessToken);
-          window.location.href = "admin-events.html";
+          window.location.href = "events.html";
         } else {
           messageEl.style.color = "red";
           messageEl.textContent = data.message || "Login failed. Please check your credentials.";

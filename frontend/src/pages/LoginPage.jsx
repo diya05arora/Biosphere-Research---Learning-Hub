@@ -12,39 +12,62 @@ export default function LoginPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const authSuccess = params.get('authSuccess');
-    const role = params.get('role');
-    const token = params.get('token');
-    const userData = params.get('user');
+    const isAdmin = params.get('isAdmin') === 'true';
+    const tokenFromUrl = params.get('token'); // Backend sends token in URL
 
     if (authSuccess === 'true') {
       try {
-        // Store token in localStorage
-        if (token) {
-          localStorage.setItem('accessToken', token);
+        // Store token from URL if available (backend sends it for Google OAuth)
+        if (tokenFromUrl) {
+          localStorage.setItem('accessToken', tokenFromUrl);
+          localStorage.setItem('refreshToken', tokenFromUrl); // Use same token for refresh detection
         }
-        
-        // Store user data if provided
-        if (userData) {
-          try {
-            const user = JSON.parse(atob(userData));
-            localStorage.setItem('user', JSON.stringify(user));
-          } catch (e) {
-            console.warn('Could not decode user data from URL');
-          }
-        }
-        
-        // Store role
-        if (role) {
-          localStorage.setItem('userRole', role);
-        }
-        
-        // Redirect based on role
-        const redirectRole = localStorage.getItem('userRole') || role;
-        if (redirectRole === 'admin') {
-          navigate("/admin-events");
-        } else {
-          navigate("/events");
-        }
+
+        // Fetch user info to get role and store in localStorage
+        fetch(`${BASE_API_URL}/users/current-user`, {
+          method: "GET",
+          credentials: "include" // Include cookies with request
+        })
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch user');
+            return res.json();
+          })
+          .then(data => {
+            if (data.data && data.data.user) {
+              const user = data.data.user;
+              localStorage.setItem('user', JSON.stringify(user));
+              localStorage.setItem('userRole', user.role);
+              
+              // Ensure refreshToken is set for login detection
+              if (!localStorage.getItem('refreshToken')) {
+                localStorage.setItem('refreshToken', tokenFromUrl || 'true');
+              }
+              
+              // Redirect based on role from database
+              if (user.role === 'admin') {
+                navigate("/admin-events");
+              } else {
+                navigate("/events");
+              }
+            }
+          })
+          .catch(err => {
+            console.warn("Could not fetch user after Google login:", err);
+            // Still redirect - tokens are in httpOnly cookies
+            if (isAdmin) {
+              localStorage.setItem('userRole', 'admin');
+              if (!localStorage.getItem('refreshToken')) {
+                localStorage.setItem('refreshToken', tokenFromUrl || 'true');
+              }
+              navigate("/admin-events");
+            } else {
+              localStorage.setItem('userRole', 'user');
+              if (!localStorage.getItem('refreshToken')) {
+                localStorage.setItem('refreshToken', tokenFromUrl || 'true');
+              }
+              navigate("/events");
+            }
+          });
       } catch (err) {
         console.error("Error handling Google auth callback:", err);
       }
@@ -104,6 +127,25 @@ export default function LoginPage() {
     }
   }
 
+  async function handleGoogleLogin() {
+    try {
+      // Fetch the Google OAuth URL from backend
+      const res = await fetch(`${BASE_API_URL}/users/auth/google-url`);
+      const data = await res.json();
+      
+      if (data.authUrl) {
+        // Redirect to Google OAuth URL provided by backend
+        window.location.href = data.authUrl;
+      } else {
+        console.error("Could not get Google OAuth URL");
+        alert("Google login is not available. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error initiating Google login:", error);
+      alert("An error occurred. Please try again.");
+    }
+  }
+
   return (
     <Layout active="home">
       <section id="login" className="login section">
@@ -111,7 +153,7 @@ export default function LoginPage() {
           <button
             id="googleLoginBtn"
             className="google-login-button"
-            onClick={() => (window.location.href = `${BASE_API_URL}/users/auth/google`)}
+            onClick={handleGoogleLogin}
           >
             Login with <img id="googleLogo" src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" />
           </button>

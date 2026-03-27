@@ -213,8 +213,19 @@
 })();
 
 
-// Get API URL
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+// Get API URL - works in both module and non-module contexts
+const API_URL = (() => {
+  // Try to get from window object if available (set by build)
+  if (window.VITE_API_URL) return window.VITE_API_URL;
+  
+  // Use production URL on production domain
+  if (window.location.hostname === 'biospheres.co.in') {
+    return 'https://biosphere-research-learning-hub.onrender.com/api/v1';
+  }
+  
+  // Default to localhost for development
+  return 'http://localhost:8000/api/v1';
+})();
 
 // Unified Login Form Handler - Works for both admin and user
 // Role is determined from the database, not sent from client
@@ -262,9 +273,9 @@ if (loginFormEl) {
           // Route based on role from database (not from client)
           const userRole = data.data.user.role;
           if (userRole === "admin") {
-            window.location.href = "admin-events.html";
+            window.location.href = "/events";
           } else {
-            window.location.href = "events.html";
+            window.location.href = "/events";
           }
         } else {
           messageEl.style.color = "red";
@@ -331,9 +342,23 @@ if (signupFormEl) {
 
 const googleLoginBtnEl = document.getElementById("googleLoginBtn");
 if (googleLoginBtnEl) {
-  googleLoginBtnEl.addEventListener("click", () => {
-    // Redirect to the backend Google OAuth endpoint (use API_URL)
-    window.location.href = `${API_URL}/users/auth/google`;
+  googleLoginBtnEl.addEventListener("click", async () => {
+    try {
+      // Fetch the Google OAuth URL from backend
+      const res = await fetch(`${API_URL}/users/auth/google-url`);
+      const data = await res.json();
+      
+      if (data.authUrl) {
+        // Redirect to Google OAuth URL provided by backend
+        window.location.href = data.authUrl;
+      } else {
+        console.error("Could not get Google OAuth URL");
+        alert("Google login is not available. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error initiating Google login:", error);
+      alert("An error occurred. Please try again.");
+    }
   });
 } else {
   console.debug('googleLoginBtn not found; skipping Google OAuth button handler');
@@ -343,39 +368,62 @@ if (googleLoginBtnEl) {
 function handleGoogleAuthCallback() {
   const params = new URLSearchParams(window.location.search);
   const authSuccess = params.get('authSuccess');
-  const role = params.get('role');
-  const token = params.get('token');
-  const userData = params.get('user');
+  const isAdmin = params.get('isAdmin') === 'true';
+  const tokenFromUrl = params.get('token'); // Backend sends token in URL
 
   if (authSuccess === 'true') {
     try {
-      // Store token in localStorage
-      if (token) {
-        localStorage.setItem('accessToken', token);
+      // Store token from URL if available (backend sends it for Google OAuth)
+      if (tokenFromUrl) {
+        localStorage.setItem('accessToken', tokenFromUrl);
+        localStorage.setItem('refreshToken', tokenFromUrl); // Use same token for refresh detection
       }
-      
-      // Store user data if provided
-      if (userData) {
-        try {
-          const user = JSON.parse(atob(userData));
-          localStorage.setItem('user', JSON.stringify(user));
-        } catch (e) {
-          console.warn('Could not decode user data from URL');
-        }
-      }
-      
-      // Store role
-      if (role) {
-        localStorage.setItem('userRole', role);
-      }
-      
-      // Redirect based on role
-      const redirectRole = localStorage.getItem('userRole') || role;
-      if (redirectRole === 'admin') {
-        window.location.href = "admin-events.html";
-      } else {
-        window.location.href = "events.html";
-      }
+
+      // Fetch user info to get role and store in localStorage
+      fetch(`${API_URL}/users/current-user`, {
+        method: "GET",
+        credentials: "include" // Include cookies with request
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch user');
+          return res.json();
+        })
+        .then(data => {
+          if (data.data && data.data.user) {
+            const user = data.data.user;
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('userRole', user.role);
+            
+            // Ensure refreshToken is set for login detection
+            if (!localStorage.getItem('refreshToken')) {
+              localStorage.setItem('refreshToken', tokenFromUrl || 'true');
+            }
+            
+            // Redirect based on role from database (React routes, not HTML files)
+            if (user.role === 'admin') {
+              window.location.href = "/admin-events";
+            } else {
+              window.location.href = "/events";
+            }
+          }
+        })
+        .catch(err => {
+          console.warn("Could not fetch user after Google login:", err);
+          // Still redirect - tokens are in httpOnly cookies
+          if (isAdmin) {
+            localStorage.setItem('userRole', 'admin');
+            if (!localStorage.getItem('refreshToken')) {
+              localStorage.setItem('refreshToken', tokenFromUrl || 'true');
+            }
+            window.location.href = "/admin-events";
+          } else {
+            localStorage.setItem('userRole', 'user');
+            if (!localStorage.getItem('refreshToken')) {
+              localStorage.setItem('refreshToken', tokenFromUrl || 'true');
+            }
+            window.location.href = "/events";
+          }
+        });
     } catch (err) {
       console.error("Error handling Google auth callback:", err);
     }
@@ -388,6 +436,10 @@ function handleGoogleAuthCallback() {
 }
 
 // Run on page load
-handleGoogleAuthCallback();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', handleGoogleAuthCallback);
+} else {
+  handleGoogleAuthCallback();
+}
 
 
