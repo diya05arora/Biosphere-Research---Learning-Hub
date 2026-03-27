@@ -2,6 +2,23 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Header({ active = "home", showLogout = false, onLogout }) {
+  function toggleMobileNav() {
+    document.querySelector('body').classList.toggle('mobile-nav-active');
+    const btn = document.querySelector('.mobile-nav-toggle');
+    btn.classList.toggle('bi-list');
+    btn.classList.toggle('bi-x');
+  }
+
+  useEffect(() => {
+    // Close mobile nav on route change
+    document.querySelector('body').classList.remove('mobile-nav-active');
+    const btn = document.querySelector('.mobile-nav-toggle');
+    if (btn) {
+      btn.classList.remove('bi-x');
+      btn.classList.add('bi-list');
+    }
+  }, [active]);
+
   return (
     <header id="header" className="header d-flex align-items-center fixed-top">
       <div className="container-fluid position-relative d-flex align-items-center justify-content-between">
@@ -29,6 +46,8 @@ function Header({ active = "home", showLogout = false, onLogout }) {
             <i className="bi bi-linkedin"></i>
           </a>
         </div>
+
+        <i className="mobile-nav-toggle bi bi-list" onClick={toggleMobileNav}></i>
       </div>
     </header>
   );

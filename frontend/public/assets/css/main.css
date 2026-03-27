@@ -411,6 +411,10 @@ h6 {
 --------------------------------------------------------------*/
 /* Navmenu - Desktop */
 @media (min-width: 1200px) {
+  .mobile-nav-toggle {
+    display: none;
+  }
+
   .navmenu {
     padding: 0;
   }
