@@ -4,7 +4,6 @@ import { Event } from "../models/event.models.js"
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js"
 import { normalizeEventPayload, isValidEventPayload } from "../utils/eventUtils.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
-import fs from "fs";
 
 
 const createEvent = asyncHandler(async (req, res) => {
@@ -16,13 +15,12 @@ const createEvent = asyncHandler(async (req, res) => {
         throw new ApiError(400, "All fields are required.")
     }
 
-    const imageLocalPath = req.file?.path;
+    // Get file buffer from memory storage (not file path)
+    const fileBuffer = req.file?.buffer;
 
     // Normalize incoming payload and validate
     const normalized = normalizeEventPayload(req.body, {});
     if (!isValidEventPayload(normalized)) {
-
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(400, "All fields are required.");
     }
 
@@ -31,27 +29,22 @@ const createEvent = asyncHandler(async (req, res) => {
     const existedEvent = await Event.findOne({ title });
 
     if (existedEvent) {
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(409, "Event with this title already exists");
     }
 
     if(startTime >= endTime){
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(400, "Event end time must be after start time");
     }
 
     if(new Date(date) < new Date()){
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(400, "Event date must be in the future");
     }
 
     if(date.toLocaleDateString() !== startTime.toLocaleDateString() || date.toLocaleDateString() !== endTime.toLocaleDateString()){
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(400, "Event start time and end time must be on the same date as the event date");
     }
 
     if(startTime.Date !== date.Date || endTime.Date !== date.Date){
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(400, "Event start time and end time must be on the same date as the event date");
     }
 
@@ -64,21 +57,18 @@ const createEvent = asyncHandler(async (req, res) => {
     });
 
     if (overlappingEvent) {
-        deleteUnusedFiles(imageLocalPath);
         throw new ApiError(409, "An event is already scheduled at this location and time");
     }
 
     let image;
     try {
-        if (!imageLocalPath) {
+        if (!fileBuffer) {
             throw new ApiError(400, "Image is required");
         }
-        image = await uploadOnCloudinary(imageLocalPath);
+        image = await uploadOnCloudinary(fileBuffer);
     } catch (error) {
         console.error("Upload error details:", error);
         throw new ApiError(400, `Failed to upload image: ${error.message}`);
-    } finally {
-        deleteUnusedFiles(imageLocalPath);
     }
 
     try {
@@ -106,8 +96,6 @@ const createEvent = asyncHandler(async (req, res) => {
         return response;
 
     } catch (error) {
-        deleteUnusedFiles(imageLocalPath);
-
         if (image) {
             await deleteFromCloudinary(image.public_id);
         }
@@ -280,17 +268,6 @@ const getAllEvents = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, events, "Events fetched successfully!"))
 });
 
-
-
-function deleteUnusedFiles(filePath) {
-    try {
-        if (filePath){
-            fs.unlinkSync(filePath);
-        }
-    } catch (error) {
-        console.error("Failed to delete file:", error);
-    }
-}
 
 
 export {

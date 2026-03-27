@@ -1,14 +1,8 @@
 import multer from "multer";
 
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, "./public/temp");
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + "_" + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + "-" + uniqueSuffix);
-    }
-});
+// Use memory storage for production (Render) and local development
+// This avoids issues with ephemeral filesystems
+const storage = multer.memoryStorage();
 
 // Only allow image file types
 const fileFilter = (req, file, cb) => {
