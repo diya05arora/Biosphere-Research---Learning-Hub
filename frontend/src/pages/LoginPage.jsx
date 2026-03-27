@@ -1,24 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { BASE_API_URL } from "../lib/api";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [userMessage, setUserMessage] = useState("");
-  const [adminMessage, setAdminMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  async function handleLogin(e, role) {
+  // Handle Google OAuth callback
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const authSuccess = params.get('authSuccess');
+    const role = params.get('role');
+    const token = params.get('token');
+    const userData = params.get('user');
+
+    if (authSuccess === 'true') {
+      try {
+        // Store token in localStorage
+        if (token) {
+          localStorage.setItem('accessToken', token);
+        }
+        
+        // Store user data if provided
+        if (userData) {
+          try {
+            const user = JSON.parse(atob(userData));
+            localStorage.setItem('user', JSON.stringify(user));
+          } catch (e) {
+            console.warn('Could not decode user data from URL');
+          }
+        }
+        
+        // Store role
+        if (role) {
+          localStorage.setItem('userRole', role);
+        }
+        
+        // Redirect based on role
+        const redirectRole = localStorage.getItem('userRole') || role;
+        if (redirectRole === 'admin') {
+          navigate("/admin-events");
+        } else {
+          navigate("/events");
+        }
+      } catch (err) {
+        console.error("Error handling Google auth callback:", err);
+      }
+    }
+
+    // Clean up URL params after handling
+    if (authSuccess) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [navigate]);
+
+  async function handleLogin(e) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    
+    // Do NOT send role - let backend determine it from database
     const payload = {
       email: form.get("email")?.toString().trim(),
       username: form.get("username")?.toString().trim(),
-      password: form.get("password"),
-      role
+      password: form.get("password")
     };
 
-    role === "user" ? setUserMessage("Logging in...") : setAdminMessage("Logging in...");
+    setMessage("Logging in...");
+    setIsLoading(true);
 
     try {
       const res = await fetch(`${BASE_API_URL}/users/login`, {
@@ -30,17 +80,27 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
+        // Store tokens and user data
         localStorage.setItem("accessToken", data.data.accessToken);
-        navigate("/events");
+        localStorage.setItem("refreshToken", data.data.refreshToken);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+        localStorage.setItem("userRole", data.data.user.role);
+        
+        // Route based on role from database (not from client)
+        const userRole = data.data.user.role;
+        if (userRole === "admin") {
+          navigate("/admin-events");
+        } else {
+          navigate("/events");
+        }
         return;
       }
 
-      role === "user"
-        ? setUserMessage(data.message || "Login failed")
-        : setAdminMessage(data.message || "Login failed");
+      setMessage(data.message || "Login failed. Please check your credentials.");
     } catch {
-      const error = "Unable to connect to backend. Please check server and CORS settings.";
-      role === "user" ? setUserMessage(error) : setAdminMessage(error);
+      setMessage("Unable to connect to backend. Please check server and CORS settings.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -60,36 +120,34 @@ export default function LoginPage() {
         <div className="or-divider">OR</div>
 
         <div className="container">
-          <div className="row gy-4">
+          <div className="row justify-content-center">
             <div className="col-lg-6">
               <div className="info-item d-flex align-items-center">
                 <div>
-                  <h3><i className="bi bi-people"></i> Admin Login</h3>
+                  <h3><i className="bi bi-box-arrow-in-right"></i> Login</h3>
+                  <p>Sign in with your email and password</p>
                 </div>
               </div>
 
-              <form className="mt-3 login-form" onSubmit={(e) => handleLogin(e, "admin")}>
-                <p style={{ fontWeight: "bold" }}>{adminMessage}</p>
-                <div className="mb-3"><label className="form-label">Email</label><input type="email" className="form-control" name="email" required /></div>
-                <div className="mb-3"><label className="form-label">AdminName</label><input type="text" className="form-control" name="username" required /></div>
-                <div className="mb-3"><label className="form-label">Password</label><input type="password" className="form-control" name="password" required /></div>
-                <button type="submit">Log In</button>
-              </form>
-            </div>
-
-            <div className="col-lg-6">
-              <div className="info-item d-flex align-items-center">
-                <div>
-                  <h3><i className="bi bi-person"></i> User Login</h3>
+              <form className="mt-4 login-form" onSubmit={handleLogin}>
+                {message && <p style={{ fontWeight: "bold", color: message.includes("success") ? "green" : "red" }}>{message}</p>}
+                
+                <div className="mb-3">
+                  <label className="form-label">Email</label>
+                  <input type="email" className="form-control" name="email" required />
                 </div>
-              </div>
-
-              <form className="mt-3 login-form" onSubmit={(e) => handleLogin(e, "user")}>
-                <p style={{ fontWeight: "bold" }}>{userMessage}</p>
-                <div className="mb-3"><label className="form-label">Email</label><input type="email" className="form-control" name="email" required /></div>
-                <div className="mb-3"><label className="form-label">Username</label><input type="text" className="form-control" name="username" required /></div>
-                <div className="mb-3"><label className="form-label">Password</label><input type="password" className="form-control" name="password" required /></div>
-                <button type="submit">Log In</button>
+                
+                <div className="mb-3">
+                  <label className="form-label">Username</label>
+                  <input type="text" className="form-control" name="username" required />
+                </div>
+                
+                <div className="mb-3">
+                  <label className="form-label">Password</label>
+                  <input type="password" className="form-control" name="password" required />
+                </div>
+                
+                <button type="submit" disabled={isLoading}>{isLoading ? "Logging in..." : "Log In"}</button>
               </form>
             </div>
           </div>

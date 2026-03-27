@@ -34,7 +34,7 @@ router.route(
     try {
       const user = req.user;
       if(!user) {
-        return res.redirect("/login");
+        return res.redirect(`${process.env.FRONTEND_URL}/?authError=user_not_found`);
       }
 
       // Generate JWT token
@@ -50,15 +50,19 @@ router.route(
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }
 
-      // Send token as cookie
+      // Send token as cookies
       res.cookie("accessToken", accessToken, options);
       res.cookie("refreshToken", refreshToken, options);
 
-      // Redirect user to your frontend dashboard or page
-      res.redirect(process.env.FRONTEND_URL);
+      // Also send tokens in URL for frontend to use (frontend will store in localStorage)
+      // Encode user data safely
+      const userData = btoa(JSON.stringify(user));
+      
+      const callbackUrl = `${process.env.FRONTEND_URL}/?authSuccess=true&role=${user.role}&token=${accessToken}&user=${encodeURIComponent(userData)}`;
+      res.redirect(callbackUrl);
     } catch (error) {
       console.error("Error in Google callback route:", error);
-      res.redirect("/login");
+      res.redirect(`${process.env.FRONTEND_URL}/?authError=callback_error`);
     }
   }
 );

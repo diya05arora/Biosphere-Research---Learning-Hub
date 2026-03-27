@@ -213,32 +213,35 @@
 })();
 
 
-// Attach login handler only if the element exists on the page
-const userLoginFormEl = document.getElementById("userLoginForm");
-if (userLoginFormEl) {
-  userLoginFormEl.addEventListener("submit", async (e) => {
+// Get API URL
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+
+// Unified Login Form Handler - Works for both admin and user
+// Role is determined from the database, not sent from client
+const loginFormEl = document.getElementById("loginForm");
+if (loginFormEl) {
+  loginFormEl.addEventListener("submit", async (e) => {
     e.preventDefault(); // prevent default form reload
 
-    const emailEl = document.getElementById("userEmail");
+    const emailEl = document.getElementById("email");
     const usernameEl = document.getElementById("username");
-    const passwordEl = document.getElementById("userPassword");
+    const passwordEl = document.getElementById("password");
 
     const email = emailEl ? emailEl.value : "";
     const username = usernameEl ? usernameEl.value : "";
     const password = passwordEl ? passwordEl.value : "";
 
-    const messageEl = document.getElementById("userLoginMessage");
+    const messageEl = document.getElementById("loginMessage");
     if (messageEl) messageEl.textContent = "Logging in...";
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
-
     try {
+      // Do NOT send role - let the backend determine it
       const res = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ email, username, password, role: "user" })
+        body: JSON.stringify({ email, username, password })
       });
 
       const data = await res.json();
@@ -247,8 +250,22 @@ if (userLoginFormEl) {
         if (res.ok) {
           messageEl.style.color = "green";
           messageEl.textContent = data.message || "Login successful!";
+          
+          // Store tokens
           localStorage.setItem('accessToken', data.data.accessToken);
-          window.location.href = "events.html";
+          localStorage.setItem('refreshToken', data.data.refreshToken);
+          
+          // Store user data including role
+          localStorage.setItem('user', JSON.stringify(data.data.user));
+          localStorage.setItem('userRole', data.data.user.role);
+          
+          // Route based on role from database (not from client)
+          const userRole = data.data.user.role;
+          if (userRole === "admin") {
+            window.location.href = "admin-events.html";
+          } else {
+            window.location.href = "events.html";
+          }
         } else {
           messageEl.style.color = "red";
           messageEl.textContent = data.message || "Login failed. Please check your credentials.";
@@ -263,52 +280,7 @@ if (userLoginFormEl) {
     }
   });
 } else {
-  console.debug('userLoginForm not found on page; skipping login handler attachment');
-}
-
-const adminLoginFormEl = document.getElementById("adminLoginForm");
-if (adminLoginFormEl) {
-  adminLoginFormEl.addEventListener("submit", async (e) => {
-  e.preventDefault(); // prevent default form reload
-    const email = document.getElementById("adminEmail").value;
-    const username = document.getElementById("adminname").value;
-    const password = document.getElementById("adminPassword").value;
-
-    const messageEl = document.getElementById("adminLoginMessage");
-    if (messageEl) messageEl.textContent = "Logging in...";
-
-    try {
-      const res = await fetch(`${API_URL}/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, username, password, role: "admin" })
-      });
-
-      const data = await res.json();
-
-      if (messageEl) {
-        if (res.ok) {
-          messageEl.style.color = "green";
-          messageEl.textContent = data.message || "Login successful!";
-          localStorage.setItem('accessToken', data.data.accessToken);
-          window.location.href = "admin-events.html";
-        } else {
-          messageEl.style.color = "red";
-          messageEl.textContent = data.message || "Login failed. Please check your credentials.";
-        }
-      }
-    } catch (error) {
-      if (messageEl) {
-        messageEl.style.color = "red";
-        messageEl.textContent = "An error occurred while logging in. Please try again.";
-      }
-      console.error(error);
-    }
-  });
-} else {
-  console.debug('adminLoginForm not found on page; skipping admin login handler attachment');
+  console.debug('loginForm not found on page; skipping login handler attachment');
 }
 
 const signupFormEl = document.getElementById("signupForm");
@@ -360,11 +332,62 @@ if (signupFormEl) {
 const googleLoginBtnEl = document.getElementById("googleLoginBtn");
 if (googleLoginBtnEl) {
   googleLoginBtnEl.addEventListener("click", () => {
-    // Redirect to the backend Google OAuth endpoint
-    window.location.href = "http://localhost:8000/api/v1/users/auth/google";
+    // Redirect to the backend Google OAuth endpoint (use API_URL)
+    window.location.href = `${API_URL}/users/auth/google`;
   });
 } else {
   console.debug('googleLoginBtn not found; skipping Google OAuth button handler');
 }
+
+// Handle Google OAuth callback
+function handleGoogleAuthCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const authSuccess = params.get('authSuccess');
+  const role = params.get('role');
+  const token = params.get('token');
+  const userData = params.get('user');
+
+  if (authSuccess === 'true') {
+    try {
+      // Store token in localStorage
+      if (token) {
+        localStorage.setItem('accessToken', token);
+      }
+      
+      // Store user data if provided
+      if (userData) {
+        try {
+          const user = JSON.parse(atob(userData));
+          localStorage.setItem('user', JSON.stringify(user));
+        } catch (e) {
+          console.warn('Could not decode user data from URL');
+        }
+      }
+      
+      // Store role
+      if (role) {
+        localStorage.setItem('userRole', role);
+      }
+      
+      // Redirect based on role
+      const redirectRole = localStorage.getItem('userRole') || role;
+      if (redirectRole === 'admin') {
+        window.location.href = "admin-events.html";
+      } else {
+        window.location.href = "events.html";
+      }
+    } catch (err) {
+      console.error("Error handling Google auth callback:", err);
+    }
+  }
+
+  // Clean up URL params after handling
+  if (authSuccess) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+}
+
+// Run on page load
+handleGoogleAuthCallback();
 
 
