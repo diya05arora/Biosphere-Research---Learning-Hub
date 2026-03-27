@@ -6,6 +6,7 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import EventsPage from "./pages/EventsPage";
+import AdminEventsPage from "./pages/AdminEventsPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/events" element={<EventsPage />} />
+      <Route path="/admin-events" element={<AdminEventsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

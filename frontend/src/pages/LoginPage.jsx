@@ -12,42 +12,43 @@ export default function LoginPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const authSuccess = params.get('authSuccess');
-    const role = params.get('role');
-    const token = params.get('token');
-    const userData = params.get('user');
+    const isAdmin = params.get('isAdmin') === 'true';
 
     if (authSuccess === 'true') {
-      try {
-        // Store token in localStorage
-        if (token) {
-          localStorage.setItem('accessToken', token);
-        }
-        
-        // Store user data if provided
-        if (userData) {
-          try {
-            const user = JSON.parse(atob(userData));
+      // Fetch user info to get role and store in localStorage
+      fetch(`${BASE_API_URL}/users/current-user`, {
+        method: "GET",
+        credentials: "include" // Include cookies with request
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch user');
+          return res.json();
+        })
+        .then(data => {
+          if (data.data && data.data.user) {
+            const user = data.data.user;
             localStorage.setItem('user', JSON.stringify(user));
-          } catch (e) {
-            console.warn('Could not decode user data from URL');
+            localStorage.setItem('userRole', user.role);
+            
+            // Redirect based on role from database
+            if (user.role === 'admin') {
+              navigate("/admin-events");
+            } else {
+              navigate("/events");
+            }
           }
-        }
-        
-        // Store role
-        if (role) {
-          localStorage.setItem('userRole', role);
-        }
-        
-        // Redirect based on role
-        const redirectRole = localStorage.getItem('userRole') || role;
-        if (redirectRole === 'admin') {
-          navigate("/admin-events");
-        } else {
-          navigate("/events");
-        }
-      } catch (err) {
-        console.error("Error handling Google auth callback:", err);
-      }
+        })
+        .catch(err => {
+          console.warn("Could not fetch user after Google login:", err);
+          // Fallback: redirect based on URL parameter if fetch fails
+          if (isAdmin) {
+            localStorage.setItem('userRole', 'admin');
+            navigate("/admin-events");
+          } else {
+            localStorage.setItem('userRole', 'user');
+            navigate("/events");
+          }
+        });
     }
 
     // Clean up URL params after handling
